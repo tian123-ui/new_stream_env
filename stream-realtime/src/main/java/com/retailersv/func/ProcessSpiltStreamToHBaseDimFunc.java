@@ -1,7 +1,7 @@
-package com.retailersv1.func;
+package com.retailersv.func;
 
 import com.alibaba.fastjson.JSONObject;
-import com.retailersv1.domain.TableProcessDim;
+import com.retailersv.domain.TableProcessDim;
 import common.utils.ConfigUtils;
 import common.utils.HbaseUtils;
 import common.utils.JdbcUtils;
@@ -24,12 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * @Package com.retailersv1.func.ProcessSpiltStreamToHBaseDim
- * @Author zhou.han
- * @Date 2024/12/19 22:55
- * @description:
- */
+
 public class ProcessSpiltStreamToHBaseDimFunc extends BroadcastProcessFunction<JSONObject,JSONObject,JSONObject> {
 
     private MapStateDescriptor<String,JSONObject> mapStateDescriptor;
@@ -63,33 +58,50 @@ public class ProcessSpiltStreamToHBaseDimFunc extends BroadcastProcessFunction<J
     }
 
     @Override
-    public void processElement(JSONObject jsonObject, BroadcastProcessFunction<JSONObject, JSONObject, JSONObject>.ReadOnlyContext readOnlyContext, Collector<JSONObject> collector) throws Exception {
-        //{"op":"c","after":{"is_ordered":0,"cart_price":"Ceqs","sku_num":1,"create_time":1734821068000,"user_id":"1150","sku_id":3,"sku_name":"小米12S Ultra 骁龙8+旗舰处理器 徕卡光学镜头 2K超视感屏 120Hz高刷 67W快充 12GB+256GB 经典黑 5G手机","id":20224},"source":{"thread":123678,"server_id":1,"version":"1.9.7.Final","file":"mysql-bin.000002","connector":"mysql","pos":383682973,"name":"mysql_binlog_source","row":0,"ts_ms":1734741512000,"snapshot":"false","db":"realtime_v1","table":"cart_info"},"ts_ms":1734741512593}
-//        System.err.println("processElement process -> "+jsonObject.toString());
-        //org.apache.flink.streaming.api.operators.co.CoBroadcastWithNonKeyedOperator$ReadOnlyContextImpl@52b20462
+    public void processElement(JSONObject jsonObject,
+                               BroadcastProcessFunction<JSONObject, JSONObject, JSONObject>.ReadOnlyContext readOnlyContext,
+                               Collector<JSONObject> collector) throws Exception {
+
         ReadOnlyBroadcastState<String, JSONObject> broadcastState = readOnlyContext.getBroadcastState(mapStateDescriptor);
         String tableName = jsonObject.getJSONObject("source").getString("table");
         JSONObject broadData = broadcastState.get(tableName);
-        // 这里可能为null NullPointerException
-        if (broadData != null || configMap.get(tableName) != null){
-            if (configMap.get(tableName).getSourceTable().equals(tableName)){
-//                System.err.println(jsonObject);
-                if (!jsonObject.getString("op").equals("d")){
+
+        if (broadData != null || configMap.get(tableName) != null) {
+            if (configMap.get(tableName).getSourceTable().equals(tableName)) {
+
+                if (!jsonObject.getString("op").equals("d")) {
                     JSONObject after = jsonObject.getJSONObject("after");
                     String sinkTableName = configMap.get(tableName).getSinkTable();
-                    sinkTableName = "realtime_v2:"+sinkTableName;
+                    sinkTableName = "default:" + sinkTableName;
+
+                    // 获取原始字段作为 rowKey
                     String hbaseRowKey = after.getString(configMap.get(tableName).getSinkRowKey());
-                    Table hbaseConnectionTable = hbaseConnection.getTable(TableName.valueOf(sinkTableName));
-                    Put put = new Put(Bytes.toBytes(MD5Hash.getMD5AsHex(hbaseRowKey.getBytes(StandardCharsets.UTF_8))));
+
+                    // ❌ 注释掉原始 MD5 逻辑
+                    // Put put = new Put(Bytes.toBytes(MD5Hash.getMD5AsHex(hbaseRowKey.getBytes(StandardCharsets.UTF_8))));
+
+                    // ✅ 改为使用明文 rowKey（可选加盐）
+                    // int salt = Math.abs(hbaseRowKey.hashCode()) % 10;
+                    // String saltedRowKey = salt + "_" + hbaseRowKey;
+                    // Put put = new Put(Bytes.toBytes(saltedRowKey));
+
+                    Put put = new Put(Bytes.toBytes(hbaseRowKey));  // 直接使用明文 rowKey
+
                     for (Map.Entry<String, Object> entry : after.entrySet()) {
-                        put.addColumn(Bytes.toBytes("info"),Bytes.toBytes(entry.getKey()),Bytes.toBytes(String.valueOf(entry.getValue())));
+                        put.addColumn(Bytes.toBytes("info"),
+                                Bytes.toBytes(entry.getKey()),
+                                Bytes.toBytes(String.valueOf(entry.getValue())));
                     }
+
+                    Table hbaseConnectionTable = hbaseConnection.getTable(TableName.valueOf(sinkTableName));
                     hbaseConnectionTable.put(put);
-                    System.err.println("put -> "+put.toJSON()+" "+ Arrays.toString(put.getRow()));
+
+                    System.err.println("put -> " + put.toJSON() + " rowKey=" + hbaseRowKey);
                 }
             }
         }
     }
+
 
     @Override
     public void processBroadcastElement(JSONObject jsonObject, BroadcastProcessFunction<JSONObject, JSONObject, JSONObject>.Context context, Collector<JSONObject> collector) throws Exception {
