@@ -1,8 +1,7 @@
 package com.retailersv.catalog.ddl.hbase;
 
-
+import com.stream.common.utils.ConfigUtils;
 import com.stream.utils.HiveCatalogUtils;
-import common.utils.ConfigUtils;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 import org.apache.flink.table.catalog.hive.HiveCatalog;

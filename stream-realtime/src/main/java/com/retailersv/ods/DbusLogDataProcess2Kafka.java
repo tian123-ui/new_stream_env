@@ -1,7 +1,7 @@
 package com.retailersv.ods;
 
 import com.alibaba.fastjson.JSONObject;
-import common.utils.*;
+import com.stream.common.utils.*;
 import lombok.SneakyThrows;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.functions.RichMapFunction;

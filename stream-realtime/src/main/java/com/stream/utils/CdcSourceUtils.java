@@ -1,10 +1,9 @@
 package com.stream.utils;
 
-
+import com.stream.common.utils.ConfigUtils;
 import com.ververica.cdc.connectors.mysql.source.MySqlSource;
 import com.ververica.cdc.connectors.mysql.table.StartupOptions;
 import com.ververica.cdc.debezium.JsonDebeziumDeserializationSchema;
-import common.utils.ConfigUtils;
 
 import java.util.Properties;
 

@@ -25,13 +25,16 @@ redis.pwd=
 # Kafka 本地或开发环境配置（若本地没启动，可填测试集群地址）
 Kafka.bootstrap.servers=cdh01:9092,cdh02:9092,cdh03:9092
 REALTIME.KAFKA.LOG.TOPIC=realtime_log
-kafka.dirty.topic=dirty_log
-kafka.err.log=err_log
-kafka.start.log=start_log
-kafka.display.log=display_log
-kafka.action.log=action_log
-kafka.page.topic=ods_page_log
+kafka.dirty.topic=realtime_dirty_log
+kafka.err.log=realtime_err_log
+kafka.start.log=realtime_start_log
+kafka.display.log=realtime_display_log
+kafka.action.log=realtime_action_log
+kafka.page.topic=realtime_page_log
 kafka.cdc.db.topic=ods_ecommerce_order
+kafka.order.topic=realtime_order
+kafka.payment.topic=realtime_payment
+kafka.refund.topic=realtime_refund
 
 # Zookeeper 本地配置
 zookeeper.server.host.list=cdh01:2181

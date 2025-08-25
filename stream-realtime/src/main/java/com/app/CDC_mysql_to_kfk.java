@@ -1,10 +1,10 @@
 package com.app;
 
 import com.alibaba.fastjson.JSONObject;
+import com.stream.common.utils.KafkaUtils;
 import com.stream.utils.CdcSourceUtils;
 import com.ververica.cdc.connectors.mysql.source.MySqlSource;
 import com.ververica.cdc.connectors.mysql.table.StartupOptions;
-import common.utils.KafkaUtils;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;

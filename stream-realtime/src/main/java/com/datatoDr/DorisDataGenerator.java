@@ -12,9 +12,9 @@ import java.util.concurrent.TimeUnit;
 
 public class DorisDataGenerator {
     // Doris连接配置（需替换为实际环境信息）
-    private static final String JDBC_URL = "jdbc:mysql://cdh01:9030/test_yi?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai";
+    private static final String JDBC_URL = "jdbc:mysql://cdh01:9031/test_yi?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai";
     private static final String USER = "root";
-    private static final String PASSWORD = "123456";
+    private static final String PASSWORD = "";
     private static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
