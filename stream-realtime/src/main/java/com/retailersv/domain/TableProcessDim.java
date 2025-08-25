@@ -1,4 +1,4 @@
-package com.retailersv1.domain;
+package com.retailersv.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -6,12 +6,6 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
-/**
- * @Package com.retailersv1.domain.TableProcessDim
- * @Author zhou.han
- * @Date 2024/12/20 09:02
- * @description: /
- */
 
 @Data
 @NoArgsConstructor
