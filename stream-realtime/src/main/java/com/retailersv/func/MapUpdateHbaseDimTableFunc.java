@@ -1,7 +1,7 @@
 package com.retailersv.func;
 
 import com.alibaba.fastjson.JSONObject;
-import common.utils.HbaseUtils;
+import com.stream.common.utils.HbaseUtils;
 import org.apache.flink.api.common.functions.RichMapFunction;
 import org.apache.flink.configuration.Configuration;
 import org.apache.hadoop.hbase.client.Connection;

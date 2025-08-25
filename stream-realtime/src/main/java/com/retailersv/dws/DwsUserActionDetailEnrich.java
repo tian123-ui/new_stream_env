@@ -2,8 +2,8 @@ package com.retailersv.dws;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import common.utils.EnvironmentSettingUtils;
-import common.utils.HbaseUtils;
+import com.stream.common.utils.EnvironmentSettingUtils;
+import com.stream.common.utils.HbaseUtils;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.configuration.Configuration;

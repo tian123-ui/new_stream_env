@@ -2,7 +2,7 @@ package com.retailersv.ods;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import common.utils.KafkaUtils;
+import com.stream.common.utils.KafkaUtils;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.connector.kafka.source.KafkaSource;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
@@ -66,11 +66,11 @@ public class OdsLogBaseStreamApp {
                 .name("Error_Log");
 
         // 5. 将不同类型日志写入 Kafka 对应 ODS Topic
-        startLogStream.sinkTo(KafkaUtils.buildKafkaSink("cdh01:9092", "ods_start_log"));
-        pageLogStream.sinkTo(KafkaUtils.buildKafkaSink("cdh01:9092", "ods_page_log"));
-        displayLogStream.sinkTo(KafkaUtils.buildKafkaSink("cdh01:9092", "ods_display_log"));
-        actionLogStream.sinkTo(KafkaUtils.buildKafkaSink("cdh01:9092", "ods_action_log"));
-        errorLogStream.sinkTo(KafkaUtils.buildKafkaSink("cdh01:9092", "ods_error_log"));
+        startLogStream.sinkTo(KafkaUtils.buildKafkaSink("cdh01:9092", "realtime_start_log"));
+        pageLogStream.sinkTo(KafkaUtils.buildKafkaSink("cdh01:9092", "realtime_page_log"));
+        displayLogStream.sinkTo(KafkaUtils.buildKafkaSink("cdh01:9092", "realtime_display_log"));
+        actionLogStream.sinkTo(KafkaUtils.buildKafkaSink("cdh01:9092", "realtime_action_log"));
+        errorLogStream.sinkTo(KafkaUtils.buildKafkaSink("cdh01:9092", "realtime_err_log"));
 
         // 6. 提交执行
         env.execute();

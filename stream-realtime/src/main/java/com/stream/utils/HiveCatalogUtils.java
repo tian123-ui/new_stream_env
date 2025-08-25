@@ -1,7 +1,6 @@
 package com.stream.utils;
 
-
-import common.utils.ConfigUtils;
+import com.stream.common.utils.ConfigUtils;
 import org.apache.flink.table.catalog.hive.HiveCatalog;
 
 

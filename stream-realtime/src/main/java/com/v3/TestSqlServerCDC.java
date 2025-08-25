@@ -25,7 +25,7 @@ public class TestSqlServerCDC {
                 .hostname("192.168.200.102")
                 .port(1433)
                 .username("sa")
-                .password("Xy0511./")
+                .password("root123456.")
                 .database("realtime")
                 .tableList("dbo.cdc_test")
                 .startupOptions(StartupOptions.initial())

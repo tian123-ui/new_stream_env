@@ -2,9 +2,9 @@ package com.retailersv.func;
 
 import com.alibaba.fastjson.JSONObject;
 import com.retailersv.domain.TableProcessDim;
-import common.utils.ConfigUtils;
-import common.utils.HbaseUtils;
-import common.utils.JdbcUtils;
+import com.stream.common.utils.ConfigUtils;
+import com.stream.common.utils.HbaseUtils;
+import com.stream.common.utils.JdbcUtils;
 import org.apache.flink.api.common.state.BroadcastState;
 import org.apache.flink.api.common.state.MapStateDescriptor;
 import org.apache.flink.api.common.state.ReadOnlyBroadcastState;
@@ -15,11 +15,8 @@ import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.util.Bytes;
-import org.apache.hadoop.hbase.util.MD5Hash;
 
-import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,7 +69,7 @@ public class ProcessSpiltStreamToHBaseDimFunc extends BroadcastProcessFunction<J
                 if (!jsonObject.getString("op").equals("d")) {
                     JSONObject after = jsonObject.getJSONObject("after");
                     String sinkTableName = configMap.get(tableName).getSinkTable();
-                    sinkTableName = "default:" + sinkTableName;
+                    sinkTableName = "realtime:" + sinkTableName;
 
                     // 获取原始字段作为 rowKey
                     String hbaseRowKey = after.getString(configMap.get(tableName).getSinkRowKey());

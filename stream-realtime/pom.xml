@@ -1,11 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.zh</groupId>
-        <artifactId>new_stream_env</artifactId>
+        <groupId>org.example</groupId>
+        <artifactId>stream-flink-main</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
@@ -17,21 +15,34 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <!--    <repositories>-->
-    <!--        <repository>-->
-    <!--            <id>cloudera</id>-->
-    <!--            <url>https://repository.cloudera.com/artifactory/cloudera-repos/</url>-->
-    <!--        </repository>-->
-    <!--    </repositories>-->
+    <repositories>
+        <repository>
+            <id>cloudera</id>
+            <url>https://repository.cloudera.com/artifactory/cloudera-repos/</url>
+        </repository>
+    </repositories>
 
     <dependencies>
-
         <dependency>
-            <groupId>com.zh</groupId>
+            <groupId>org.example</groupId>
             <artifactId>stream-common</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
+        <dependency>
+            <groupId>ru.yandex.clickhouse</groupId>
+            <artifactId>clickhouse-jdbc</artifactId>
+            <version>0.3.2</version>
+        </dependency>
+
+
+
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.33</version>
+        </dependency>
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-hdfs-client</artifactId>
@@ -69,7 +80,10 @@
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-streaming-java</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-connector-jdbc</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-connector-hive_2.12</artifactId>
@@ -90,32 +104,6 @@
         </dependency>
 
 
-
-        <dependency>
-            <groupId>org.apache.hive</groupId>
-            <artifactId>hive-jdbc</artifactId>
-            <version>2.1.1</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>log4j-slf4j-impl</artifactId>
-                    <groupId>org.apache.logging.log4j</groupId>
-                </exclusion>
-            </exclusions>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.hive</groupId>
-            <artifactId>hive-exec</artifactId>
-            <version>2.1.1-cdh6.3.2</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>log4j-slf4j-impl</artifactId>
-                    <groupId>org.apache.logging.log4j</groupId>
-                </exclusion>
-            </exclusions>
-            <scope>provided</scope>
-        </dependency>
 
 
 
@@ -176,29 +164,6 @@
             <groupId>com.ververica</groupId>
             <artifactId>flink-connector-mysql-cdc</artifactId>
         </dependency>
-
-        <!--        Flink CDC Pg connector-->
-        <!--        <dependency>-->
-        <!--            <groupId>org.apache.flink</groupId>-->
-        <!--            <artifactId>flink-connector-postgres-cdc</artifactId>-->
-        <!--            <version>3.4.0</version>-->
-        <!--        </dependency>-->
-
-        <dependency>
-            <groupId>com.ververica</groupId>
-            <artifactId>flink-connector-postgres-cdc</artifactId>
-            <version>2.4.2</version>
-            <!--            <scope>provided</scope>-->
-        </dependency>
-
-        <!--        Flink CDC SqlServer connector-->
-        <dependency>
-            <groupId>com.ververica</groupId>
-            <artifactId>flink-connector-sqlserver-cdc</artifactId>
-            <version>3.0.0</version>
-        </dependency>
-
-
 
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -261,6 +226,28 @@
             <version>3.1.1-1.17</version>
         </dependency>
 
+        <!-- SQL Server JDBC 驱动 -->
+        <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+            <version>9.4.1.jre8</version>
+        </dependency>
+
+        <!-- Flink SQL Server CDC 连接器（包含 SqlServerSource） -->
+        <dependency>
+            <groupId>com.ververica</groupId>
+            <artifactId>flink-connector-sqlserver-cdc</artifactId>
+            <version>2.4.1</version> <!-- 版本需与 Flink 版本兼容，2.4.x 适配 Flink 1.15+ -->
+        </dependency>
+
+
+        <!-- 若使用 Flink 1.17+，可能需要额外添加 debezium 依赖 -->
+        <dependency>
+            <groupId>io.debezium</groupId>
+            <artifactId>debezium-connector-sqlserver</artifactId>
+            <version>1.9.7.Final</version>
+        </dependency>
+
 
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -297,8 +284,6 @@
             <!--            <scope>test</scope>-->
         </dependency>
 
-
-
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-aws</artifactId>
@@ -325,11 +310,7 @@
             <!--            <scope>provided</scope>-->
         </dependency>
 
-        <!--        <dependency>-->
-        <!--            <groupId>org.example</groupId>-->
-        <!--            <artifactId>data-encryption</artifactId>-->
-        <!--            <version>1.0-RELEASE</version>-->
-        <!--        </dependency>-->
+
 
 
     </dependencies>

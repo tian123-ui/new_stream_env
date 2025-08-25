@@ -1,15 +1,15 @@
 package com.retailersv.dwd;
 
-import common.utils.ConfigUtils;
-import common.utils.EnvironmentSettingUtils;
-import common.utils.KafkaUtils;
+import com.stream.common.utils.ConfigUtils;
+import com.stream.common.utils.EnvironmentSettingUtils;
+import com.stream.common.utils.KafkaUtils;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.functions.RichFlatMapFunction;
+import org.apache.flink.configuration.Configuration;
 import org.apache.flink.connector.kafka.source.enumerator.initializer.OffsetsInitializer;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.util.Collector;
-import org.apache.flink.configuration.Configuration;
 
 import java.util.HashMap;
 import java.util.Map;
