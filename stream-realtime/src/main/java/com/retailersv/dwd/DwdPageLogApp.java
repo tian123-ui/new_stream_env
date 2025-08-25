@@ -2,7 +2,7 @@ package com.retailersv.dwd;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import common.utils.KafkaUtils;
+import com.stream.common.utils.KafkaUtils;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.connector.kafka.source.KafkaSource;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
@@ -15,8 +15,8 @@ public class DwdPageLogApp {
         env.setParallelism(1);
         //从 Kafka 读取页面日志
         KafkaSource<String> kafkaSource = KafkaUtils.getKafkaSource(
-                "ods_page_log",       // 源 Kafka 主题
-                "dwd_page_log_group", // groupId
+                "realtime_log",       // 源 Kafka 主题
+                "realtime_log_group", // groupId
                 "cdh01:9092"          // broker
         );
         DataStreamSource<String> kafkaStrStream = env.fromSource(

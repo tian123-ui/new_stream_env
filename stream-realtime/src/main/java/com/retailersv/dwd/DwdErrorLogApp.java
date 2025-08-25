@@ -2,7 +2,7 @@ package com.retailersv.dwd;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import common.utils.KafkaUtils;
+import com.stream.common.utils.KafkaUtils;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
@@ -15,7 +15,7 @@ public class DwdErrorLogApp {
 
         // 2. 从 Kafka 读取 ods_log 源数据
         DataStreamSource<String> kafkaSource = env.fromSource(
-                KafkaUtils.getKafkaSource("realtime_log", "ods_log_group", "cdh01:9092"),
+                KafkaUtils.getKafkaSource("realtime_log", "realtime_log_group", "cdh01:9092"),
                 WatermarkStrategy.noWatermarks(),
                 "Kafka_Source"
         );

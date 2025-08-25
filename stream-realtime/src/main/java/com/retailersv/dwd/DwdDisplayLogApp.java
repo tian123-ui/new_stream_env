@@ -3,7 +3,7 @@ package com.retailersv.dwd;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import common.utils.KafkaUtils;
+import com.stream.common.utils.KafkaUtils;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.api.common.typeinfo.Types;
@@ -19,8 +19,8 @@ public class DwdDisplayLogApp {
         env.setParallelism(1);
         // 2. 从 Kafka 中读取 ods_page_log
         KafkaSource<String> kafkaSource = KafkaUtils.getKafkaSource(
-                "ods_page_log",
-                "dwd_display_log_group",
+                "realtime_log",
+                "realtime_log_group",
                 "cdh01:9092"
         );
 
