@@ -14,7 +14,6 @@
         <module>custom-func</module>
         <module>stream-deploy</module>
         <module>stream-ml</module>
-        <module>untitled</module>
         <module>denv</module>
     </modules>
 

@@ -2,9 +2,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.example</groupId>
-        <artifactId>stream-flink-main</artifactId>
-        <version>1.0-SNAPSHOT</version>
+    <groupId>com.zh</groupId>
+    <artifactId>new_stream_env</artifactId>
+    <version>1.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>stream-realtime</artifactId>
@@ -24,7 +24,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.example</groupId>
+            <groupId>com.zh</groupId>
             <artifactId>stream-common</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
